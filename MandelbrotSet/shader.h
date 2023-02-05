@@ -22,6 +22,7 @@ public:
 	// Uniform functions
 	void setMatrix4fv(const std::string& name, const glm::mat4& value) const;
 	void setVector4dv(const std::string& name, const glm::dvec4& value) const;
+	void setFloat(const std::string& name, const float& value) const;
 
 private:
 	// The program ID
@@ -149,6 +150,12 @@ void Shader::setVector4dv(const std::string& name, const glm::dvec4& value) cons
 {
 	GLuint location = glGetUniformLocation(ID, name.c_str());
 	glUniform4dv(location, 1, &value[0]);
+}
+
+void Shader::setFloat(const std::string& name, const float& value) const
+{
+	GLuint location = glGetUniformLocation(ID, name.c_str());
+	glUniform1f(location, value);
 }
 
 #endif

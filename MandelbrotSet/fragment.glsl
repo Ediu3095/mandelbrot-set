@@ -2,30 +2,36 @@
 
 in vec2 fragmentCoords;
 
-out vec3 color;
+out vec4 color;
 
 uniform dvec4 lbrt;
+uniform float colorPeriod;
+uniform float maxIt;
 
-double dist(dvec2 a, dvec2 b)
-{
-	dvec2 c = a - b;
-	return dot(c, c);
-}
+uniform sampler1D textureSampler;
 
 void main()
 {
 	dvec2 lb = lbrt.xy, rt = lbrt.zw;
-	dvec2 c = lb + (rt - lb) * dvec2(fragmentCoords);
-	dvec2 z = dvec2(0, 0);
-	dvec2 o = dvec2(0, 0);
+	dvec2 c  = lb + (rt - lb) * dvec2(fragmentCoords);
+	dvec2 z  = dvec2(0, 0);
+	dvec2 z2 = dvec2(0, 0);
 
 	float it = 0.0f;
-	float itMax = 1000.0f;
-	for (; it < itMax && dist(o, z) <= 4.0; it++)
-	{
-		z = dvec2(z.x * z.x - z.y * z.y + c.x, z.x * z.y + z.y * z.x + c.y);
+	for (; it < maxIt && z2.x + z2.y <= (1 << 16); it++) {
+		z  = dvec2(z2.x - z2.y + c.x, 2 * z.x * z.y + c.y);
+		z2 = dvec2(z.x * z.x, z.y * z.y);
 	}
 
-	float gray = sin(it / 10.0f) / 2.0f + 0.5f;
-	color = vec3(gray);
+	if (it >= maxIt)
+	{
+		color = vec4(0.0f);
+	}
+	else
+	{
+		float log_zn = log(float(z2.x + z2.y)) / 2;
+		float nu = log(log_zn / log(2)) / log(2);
+		it = it + 1 - nu;
+		color = texture(textureSampler, it / colorPeriod);
+	}
 }
