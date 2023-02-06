@@ -8,7 +8,7 @@ uniform dvec4 lbrt;
 uniform float colorPeriod;
 uniform float maxIt;
 
-uniform sampler1D textureSampler;
+uniform sampler1D colormap;
 
 void main()
 {
@@ -32,6 +32,6 @@ void main()
 		float log_zn = log(float(z2.x + z2.y)) / 2;
 		float nu = log(log_zn / log(2)) / log(2);
 		it = it + 1 - nu;
-		color = texture(textureSampler, it / colorPeriod);
+		color = texture(colormap, it / colorPeriod);
 	}
 }

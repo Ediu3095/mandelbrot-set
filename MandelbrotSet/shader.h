@@ -23,6 +23,7 @@ public:
 	void setMatrix4fv(const std::string& name, const glm::mat4& value) const;
 	void setVector4dv(const std::string& name, const glm::dvec4& value) const;
 	void setFloat(const std::string& name, const float& value) const;
+	void setInt(const std::string& name, const int& value) const;
 
 private:
 	// The program ID
@@ -156,6 +157,12 @@ void Shader::setFloat(const std::string& name, const float& value) const
 {
 	GLuint location = glGetUniformLocation(ID, name.c_str());
 	glUniform1f(location, value);
+}
+
+void Shader::setInt(const std::string& name, const int& value) const
+{
+	GLuint location = glGetUniformLocation(ID, name.c_str());
+	glUniform1i(location, value);
 }
 
 #endif

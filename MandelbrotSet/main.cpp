@@ -117,6 +117,8 @@ int main(void)
     /***********
     * TEXTURES *
     ***********/
+    // Activate the texture unit before binding a texture
+    glActiveTexture(GL_TEXTURE0);
     // Create a texture
     GLuint texture;
     glGenTextures(1, &texture);
@@ -212,12 +214,14 @@ int main(void)
         shader.use();
 
         // Draw canvas
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_1D, texture);
+        glBindVertexArray(canvasVertexArrayID);
         shader.setMatrix4fv("mvp", mvp);
         shader.setVector4dv("lbrt", lbrt);
         shader.setFloat("colorPeriod", colorPeriod);
         shader.setFloat("maxIt", maxIt);
-        glBindVertexArray(canvasVertexArrayID);
+        shader.setInt("colormap", 0);
         glDrawElements(GL_TRIANGLES, 2 * 3, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
