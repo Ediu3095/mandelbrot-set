@@ -1,3 +1,6 @@
 # Build files
 .cache/
 build/
+
+# VSCode files
+.vscode/

@@ -1,3 +1,7 @@
 add_subdirectory(glad)
+option(GLFW_BUILD_TESTS "Don't build GLFW tests" OFF)
+option(GLFW_BUILD_EXAMPLES "Don't build GLFW examples" OFF)
+option(GLFW_INSTALL "Don't install GLFW" OFF)
 add_subdirectory(glfw)
+option(GLM_DISABLE_AUTO_DETECTION "Disable GLM warnings or else it won't compile" ON)
 add_subdirectory(glm)
