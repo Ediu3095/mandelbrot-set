@@ -1,4 +1,3 @@
-R"
 #version 460 core
 
 in vec2 fragmentCoords;
@@ -36,4 +35,3 @@ void main()
 		color = texture(colormap, it / colorPeriod);
 	}
 }
-"
